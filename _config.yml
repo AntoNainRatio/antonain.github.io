@@ -1,2 +1,32 @@
-title: AntoNain's homepage
-description: Little web page to show what I've done on my free time!
+# --- Identité du site ---
+title: Antonin Lhuillery
+description: >-
+  Ingénieur informatique — portfolio de projets et expérimentations.
+# Laisse vide tant que tu n'as pas de nom de domaine personnalisé.
+url: "https://antonain.github.io"
+baseurl: ""
+
+# --- Thème (natif GitHub Pages, aucune installation requise) ---
+theme: minima
+minima:
+  skin: classic        # classic = épuré clair. (autres: dark, solarized…)
+  social_links:
+    - { platform: github,   user_url: "https://github.com/AntoNainRatio" }
+    # - { platform: linkedin, user_url: "https://www.linkedin.com/in/TON-PROFIL" }
+
+# --- Navigation (ordre des onglets en haut) ---
+header_pages:
+  - projects.md
+  - about.md
+
+# --- Plugins (tous supportés par GitHub Pages) ---
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# --- Réglages divers ---
+show_excerpts: true
+exclude:
+  - README.md
+  - CLAUDE.md
