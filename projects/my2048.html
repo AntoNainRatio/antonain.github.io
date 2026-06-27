@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My2048 — Antonin Lh</title>
+  <meta name="description" content="My2048 : une réimplémentation du jeu 2048 en C/GTK, et un bot Expectimax capable d'y jouer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html#top" class="brand">antonin<span class="accent">.</span>lh</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">À propos</a></li>
+        <li><a href="../index.html#projects">Projets</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO PARALLAX -->
+    <section class="project-hero">
+      <div class="project-hero-bg" data-parallax style="background-image: url('../assets/img/my2048_default.jpg');"></div>
+      <div class="project-hero-overlay"></div>
+      <div class="project-hero-content container">
+        <a href="../index.html#projects" class="back-link">← Retour aux projets</a>
+        <h1 class="project-hero-title">My2048</h1>
+        <p class="project-hero-tagline">
+            My2048 est une copie de 2048, l'objectif était de refaire le jeu
+            afin d'ensuite créer un bot performant dessus.
+        </p>
+        <div class="project-tags">
+          <span>C</span><span>GTK</span><span>Expectimax</span><span>IA</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENU -->
+    <article class="project-article container">
+
+      <!-- En bref -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>En bref</h2>
+          <p>
+            <em>My2048</em> est né d'une envie simple&nbsp;: reconstruire de zéro le
+            célèbre jeu <strong>2048</strong> pour ensuite m'attaquer à un objectif
+            plus ambitieux — implémenter un <strong>bot</strong> capable de jouer tout seul
+            et surtout de bien jouer.
+          </p>
+          <p>
+            Cette idée m'est venue car j'aimais beaucoup jouer à ce jeu et je voulais voir 
+            si j'avais les conaissances nécessaires pour faire aboutir ce projet et surtout 
+            apprendre de nouvelle chose.
+          </p>
+          <p>
+            Le projet se découpe en deux parties&nbsp;: le <strong>jeu</strong>
+            (logique + interface graphique) et l'<strong>"intelligence
+            artificielle"</strong> qui s'appuie sur l'algorithme
+            <em>Expectimax</em>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Le jeu -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Le jeu</h2>
+          <p>
+            L'implémentation du jeu a été très plaisante à réalisé. J'ai 
+            donc essayé de le créer de manière la plus fidèle qu'il soit en 
+            gardant évidemment les mêmes mécaniques mais égallement d'un point 
+            de vue visuel.
+          </p>
+          <p>
+            Pour ceux qui ne connaissent pas ce jeu, l'objectif est de créer 
+            des <strong>nombres les plus grands possible</strong>.
+          </p>
+
+          <p>
+            Pour ce faire, nous pouvons nous déplacer dans 4 directions
+            <em>(haut, bas, gauche et droite)</em>. Apres chaque mouvement, 
+            un nouveau chiffre apparaît entre 2 et 4 (90% de chance que ce soit un 2 et 10% 
+            que ce soit un 4). 
+          </p>
+
+          <p>
+            Pour faire grandir les nombres, nous devons fusionner deux nombres 
+            en les écrasant l'un sur l'autre grâce aux 4 mouvements disponibles.
+          </p>
+          <div class="explanation_game">
+            <figure class="media-figure">
+              <img src="../assets/img/my2048/explanation_game1.jpg" loading="lazy" />
+            </figure>
+            <figure class="media-figure">
+              <img src="../assets/img/my2048/explanation_game2.jpg" loading="lazy" />
+            </figure>
+          </div>
+          <p>
+            Sur ses exemples ci-dessus, on peut voir qu'en effectuant le mouvement pour descendre, 
+            les deux bloc ayant pour valeur <strong>2</strong> ont fusionnés pour devenir un 
+            <strong>4</strong>. On a donc ensuite l'apparition d'un nouveau bloc.
+          </p>
+
+        </div>
+        <figure class="media-figure">
+          <img src="../assets/img/my2048_default.jpg" alt="Capture du jeu My2048" loading="lazy" />
+          <figcaption>Exemple de partie en cours.</figcaption>
+        </figure>
+
+        <div class="prose">
+          <p>
+            Une dernière subtilité est le fait que les déplacements soient disponibles ou non. 
+            Dans le cas ci-dessus, le seul déplacement valide est vers la droite car sur les 3 autres 
+            directions aucuns blocs ne va bouger.
+          </p>
+
+          <p>
+            La partie s'arrête lorsque plus aucun déplacement n'est possible. L'objectif le plus 
+            répandu est <strong>2048</strong>, mais rien ne vous oblige de vous arrêter là.
+          </p>
+
+          <p>
+            Maintenant que <strong>2048</strong> n'a plus de secret pour vous, nous allons passer à l'explication 
+            du fonctionnement de notre futur champion.
+          </p>
+        </div>
+      </section>
+
+      <!-- Comment ça marche -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Comment marche le bot&nbsp;?</h2>
+          <p>
+            TODO
+          </p>
+          <ul>
+            <li><strong>TODO</strong> : <em>TODO DETAILS</em>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Démonstration vidéo -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Démonstration</h2>
+          <p>Le bot en action&nbsp;: TODO</p>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/my2048_default.jpg">
+            <source src="../assets/video/my2048/my2048_demo.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
+      <!-- Galerie -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Galerie</h2>
+        </div>
+        <div class="media-gallery">
+          <figure class="media-figure">
+            <img src="../assets/img/my2048_default.jpg" alt="My2048 — vue 1" loading="lazy" />
+            <figcaption>TODO</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Ce que j'ai appris -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Ce que j'en retiens</h2>
+          <p>
+            <em>Conclus&nbsp;: TODO</em>
+          </p>
+          <div class="article-cta">
+            <a href="https://github.com/AntoNainRatio/My2048" target="_blank" rel="noopener" class="btn btn-primary">Code source ↗</a>
+            <a href="../index.html#projects" class="btn btn-ghost">← Autres projets</a>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer container">
+    <p>© <span id="year"></span>  -  antonin.lh  -  Hébergé sur GitHub Pages.</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/project.js"></script>
+</body>
+</html>

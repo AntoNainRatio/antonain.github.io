@@ -346,3 +346,201 @@ a { color: inherit; text-decoration: none; }
   .nav-links li { width: 100%; }
   .nav-links a { display: block; padding: 1rem 1.25rem; border-top: 1px solid var(--border); }
 }
+
+/* ===========================================================================
+   PAGE PROJET (détail)
+   =========================================================================== */
+
+/* --- Hero parallax --- */
+.project-hero {
+  position: relative;
+  min-height: min(78vh, 640px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.project-hero-bg {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  right: 0;
+  height: 140%;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  will-change: transform;
+  z-index: 0;
+}
+/* La "bande" assombrie qui fond vers le fond du site pour la lisibilité */
+.project-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 15, 18, 0.35) 0%,
+      rgba(13, 15, 18, 0.55) 45%,
+      rgba(13, 15, 18, 0.85) 80%,
+      var(--bg) 100%
+    );
+}
+.project-hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 2.5rem, var(--maxw));
+  margin-inline: auto;
+  padding-block: 3rem;
+}
+.back-link {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+.back-link:hover { color: var(--accent); }
+.project-hero-title {
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+.project-hero-tagline {
+  color: var(--text-dim);
+  font-size: 1.15rem;
+  max-width: 620px;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Corps de l'article --- */
+.project-article { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.project-block { margin-bottom: clamp(3rem, 7vw, 5rem); }
+
+.prose { max-width: none; }
+.prose h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.prose p { color: var(--text-dim); margin-bottom: 1rem; }
+.prose strong { color: var(--text); font-weight: 600; }
+.prose em { color: var(--text-faint); }
+.prose ul { color: var(--text-dim); padding-left: 1.2rem; margin-bottom: 1rem; }
+.prose li { margin-bottom: 0.5rem; }
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  color: var(--accent-dim);
+}
+
+/* "En bref" : texte + fiche latérale */
+.project-block-grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.project-facts {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.project-facts h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 1rem;
+}
+.project-facts dl { margin-bottom: 1.25rem; }
+.project-facts dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.project-facts dt { color: var(--text-faint); }
+.project-facts dd { color: var(--text); font-family: var(--mono); }
+.btn-block { display: flex; justify-content: center; width: 100%; }
+
+/* Figures / images */
+.media-figure { margin: 0; }
+
+/* Grande image autonome dans un bloc : plus petite et centrée */
+.project-block > .media-figure {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+.media-figure img {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+}
+.media-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  font-family: var(--mono);
+}
+.project-block .prose + .media-figure,
+.project-block .prose + .media-gallery,
+.project-block .prose + .video-wrap { margin-top: 1.5rem; }
+.project-block .media-figure + .prose { margin-top: 2.5rem; }
+
+/* Galerie */
+.media-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+/* Deux petites images côte à côte (explication du jeu) */
+.explanation_game {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin: 1.5rem 0;
+}
+.explanation_game .media-figure {
+  flex: 0 1 320px;
+  max-width: 320px;
+}
+
+/* Vidéo */
+.video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+.video-wrap video,
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.media-note { font-size: 0.85rem; color: var(--text-faint); margin-top: 0.8rem; }
+
+.article-cta { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+
+@media (max-width: 720px) {
+  .project-block-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+}

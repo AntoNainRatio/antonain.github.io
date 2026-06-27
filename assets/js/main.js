@@ -13,6 +13,7 @@ const PROJECTS = [
     tags: ["C", "GTK", "Expectimax"],
     image: "assets/img/my2048_default.jpg",
     repo: "https://github.com/AntoNainRatio/My2048",
+    page: "projects/my2048.html",
   },
   {
     title: "SlimeSimu",
@@ -67,6 +68,7 @@ function renderProjects() {
     const links = el("div", { class: "project-links" });
     if (p.repo) links.appendChild(el("a", { href: p.repo, target: "_blank", rel: "noopener", text: "code ↗" }));
     if (p.demo) links.appendChild(el("a", { href: p.demo, target: "_blank", rel: "noopener", text: "démo ↗" }));
+    if (p.page) links.appendChild(el("a", { href: p.page, text: "détails →" }));
 
     const top = el("div", { class: "project-top" }, [
       p.image ? null : el("span", { class: "project-icon", text: p.icon || "" }),
@@ -76,17 +78,24 @@ function renderProjects() {
     const tags = el("div", { class: "project-tags" });
     (p.tags || []).forEach((t) => tags.appendChild(el("span", { text: t })));
 
+    // Le titre renvoie vers la page de détail si elle existe
+    const title = p.page
+      ? el("h3", {}, [el("a", { href: p.page, text: p.title })])
+      : el("h3", { text: p.title });
+
     const body = el("div", { class: "project-body" }, [
       top,
-      el("h3", { text: p.title }),
+      title,
       el("p", { text: p.description }),
       tags,
     ]);
 
+    // L'image renvoie vers la page de détail si elle existe
     const media = p.image
-      ? el("div", { class: "project-media" }, [
-          el("img", { src: p.image, alt: p.title, loading: "lazy" }),
-        ])
+      ? el(p.page ? "a" : "div", {
+          class: "project-media",
+          ...(p.page ? { href: p.page } : {}),
+        }, [el("img", { src: p.image, alt: p.title, loading: "lazy" })])
       : null;
 
     const card = el("article", { class: "project-card reveal" }, [media, body]);
