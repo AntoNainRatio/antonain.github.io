@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antonin Lh</title>
+  <meta name="description" content="Portfolio d'Antonin, Projets, expérimentations et contact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="#top" class="brand">antonin<span class="accent">.</span>lh</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero container">
+      <p class="hero-kicker">Mon Portfolio.</p>
+      <h1 class="hero-title">
+        Voici mes Projets.<br />
+      </h1>
+      <p class="hero-sub">
+        Bienvenue sur mon portfolio - Les projets dont je suis le plus fier
+        sont présents ici. Bonne découverte !
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section container">
+      <div class="section-head">
+        <h2>À propos</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Je suis un étudiant en informatique et j'aimerai en faire mon métier.
+            Je suis passioné plus particulièrement par le domaine de la cybersécurité.
+            J'aime comprendre comment les choses fonctionnent et les construire de mes
+            mains. Cette petite page web regroupe mes projets personnels et mes expérimentations.
+          </p>
+          <p>
+            <em>
+                J'étudie l'informatique au seins d'EPITA à Rennes. J'ai
+                intégré la majeur BuildSec ayant pour objectif de nous apprendre
+                à construire de manière sécurisée.
+            </em>
+          </p>
+        </div>
+        <aside class="about-interests">
+          <h3>Centres d'interêts</h3>
+          <ul class="interests" id="interests"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section container">
+      <div class="section-head">
+        <h2>Projets</h2>
+      </div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section container">
+      <div class="section-head">
+        <h2>Contact</h2>
+      </div>
+      <p class="contact-lead">
+        Une question, une idée, une opportunité&nbsp;? N'hésite pas à m'écrire.
+      </p>
+      <div class="contact-links" id="contact-links"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <p>© <span id="year"></span>  -  antonin.lh  -  Hébergé sur GitHub Pages.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
