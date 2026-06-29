@@ -48,7 +48,8 @@
         <div class="prose">
           <h2>En bref</h2>
           <p>
-            TODO
+          SlimeSimu est donc une Simulation de <strong>Slime</strong> ou bien 
+          de <Strong>fourmis</strong> si on reduit leur nombre.
           </p>
         </div>
       </section>
@@ -56,38 +57,90 @@
       <!-- La simulation -->
       <section class="project-block reveal">
         <div class="prose">
-          <h2>La simulation</h2>
+          <h2>Les agents</h2>
           <p>
-            TODO
+            Cette simulation a donc été réalisée en <strong>C avec la libraire GTK</strong>. 
+            Elle repose sur la nombreuse présence d'agent qu'on appelera aussi vaisseau.
           </p>
-
-          <div class="explanation_game">
-            <figure class="media-figure">
-              <img src="../assets/img/SlimeSimu/explanation1.jpg" loading="lazy" />
-              <figcaption>TODO</figcaption>
-            </figure>
-
-            <figure class="media-figure">
-              <img src="../assets/img/SlimeSimu/explanation2.jpg" loading="lazy" />
-            </figure>
-
-          </div>
-
           <p>
-            TODO
+            Ces vaisseaux sont la plus petite entité de la simulation. Il se déplace 
+            à vitesse constante en suivant une direction précise. S'ils sont amenés à 
+            atteindre le bord de la carte, un nouvel angle les amenant vers le côté opposé. 
+            Leur fonctionnement repose sur plusieurs paramètres.
           </p>
-
         </div>
-        <figure class="media-figure">
-          <img src="../assets/img/SlimeSimu_default.jpg" alt="Capture du SlimeSimu" loading="lazy" />
-          <figcaption>TODO</figcaption>
+        <figure class="media-figure is-small">
+          <img src="../assets/img/SlimeSimu/ship_parameters.png" loading="lazy" />
+          <figcaption>Schéma des paramètres d'un vaisseau.</figcaption>
         </figure>
 
         <div class="prose">
+          <p>Afin de devenir vivant, il a besoin de différents facteurs&nbsp;:</p>
+          <ol>
+            <li>Distance de recherche</li>
+            <li>Angle de recherche</li>
+            <li>Intervalle d'angle de rotation de la trajectoire</li>
+            <li>Rayon de la zone de recherche</li>
+          </ol>
           <p>
-            TODO
+          Lors du passage d'un vaisseau, il dépose des <strong>phéromones</strong>. 
+          Ces phéromones sont les repères de ces agents et leur permettent de savoir qu'un 
+          camarade est passé ici récemment.
           </p>
+        </div>
 
+        <div class="video-wrap is-small">
+          <video controls preload="metadata" poster="../assets/img/SlimeSimu/black.png">
+            <source src="../assets/video/SlimeSimu/phero.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+
+        <div class="prose">
+          <p>
+          Ces phéromones se <strong>diffusent et dispersent</strong> au cours du temps.
+          </p>
+          <p>
+          Maintenant que nous connaissons mieux les vaisseaux et les phéromones qu'ils
+          libèrent, il nous reste à faire qu'ils soient attirés par les phéromones. Leurs
+          décisions suivent un principe assez simple.
+          </p>
+          <p>
+          Pour <em>« sentir »</em> son environnement, chaque vaisseau dispose de
+          <strong>trois capteurs</strong> qui regardent un peu en avant&nbsp;: un
+          <strong>devant</strong> lui, un légèrement vers la <strong>gauche</strong> et un
+          légèrement vers la <strong>droite</strong>. Chaque capteur mesure la
+          <strong>quantité totale de phéromones</strong> présente dans la petite zone qu'il
+          observe. Le vaisseau compare ensuite ces trois valeurs et oriente sa trajectoire vers
+          la direction la plus <em>« parfumée »</em>.
+          </p>
+          <pre class="code-block"><span class="kw">si</span> devant contient le plus de phéromones
+    <span class="arr">→</span> continuer tout droit
+<span class="kw">sinon si</span> gauche <span class="kw">et</span> droite sont meilleures que devant
+    <span class="arr">→</span> faire un léger écart aléatoire   <span class="cm"># hésitation</span>
+<span class="kw">sinon si</span> gauche &gt; droite
+    <span class="arr">→</span> tourner vers la gauche
+<span class="kw">sinon si</span> droite &gt; gauche
+    <span class="arr">→</span> tourner vers la droite
+<span class="kw">sinon</span>   <span class="cm"># égalité parfaite</span>
+    <span class="arr">→</span> choisir un côté au hasard</pre>
+        </div>
+
+          <div class="prose">
+          <p>
+            Deux cas méritent un mot. Lorsque la <strong>gauche</strong> et la
+            <strong>droite</strong> sont toutes deux plus attirantes que <strong>devant</strong>,
+            il n'y a pas de « bon » choix évident&nbsp;: plutôt que de figer le vaisseau, on lui
+            fait faire un tout petit écart aléatoire. Ce léger bruit évite que tous les agents
+            restent bloqués sur les mêmes trajectoires et donne à la simulation son aspect
+            organique.
+          </p>
+          <p>
+            Enfin, le vaisseau ne pivote jamais d'un coup&nbsp;: à chaque pas il ne corrige son
+            cap que d'un <strong>petit angle</strong>. Les chemins ne sont donc pas tracés au
+            cordeau mais se courbent progressivement, ce qui fait émerger les réseaux et les
+            filaments caractéristiques des colonies de fourmis et des slimes.
+          </p>
         </div>
       </section>
 
@@ -97,27 +150,17 @@
           <h2>Comment marche la simulation&nbsp;?</h2>
 
           <p>
-            TODO
-          </p>
-        </div>
-
-        <div class="explanation_bot">
-          <figure class="media-figure">
-            <img src="../assets/img/SlimeSimu/TODO.jpg" loading="lazy" />
-            <figcaption>TODO</figcaption>
-          </figure>
-        </div>
-
-        <div class="prose">
-          <p>
-            TODO
+            Maintenant que nous avons un vaisseau capable de suivre des phéromones, il 
+            ne nous reste plus qu'à en disposer un grand nombre dans une carte assez 
+            grande et de laisser la magie opérer.
           </p>
 
           <h3>Performance</h3>
           <p>
-            TODO
+            Afin de pouvoir rendre ce projet agréable visuellement, j'ai dû me tourner 
+            vers l'utilisation de calcul GPU afin de faire tout ses calculs et cet affichage 
+            image par image.
           </p>
-
         </div>
       </section>
 
@@ -126,15 +169,61 @@
         <div class="prose">
           <h2>Démonstration</h2>
           <p>Le Simulateur en action&nbsp;:</p>
-          <p>
-            TODO
-          </p>
         </div>
         <div class="video-wrap">
-          <video controls preload="metadata" poster="../assets/img/SlimeSimu_default.jpg">
-            <source src="../assets/video/SlimeSimu/TODO.mp4" type="video/mp4" />
+          <video controls preload="metadata" poster="../assets/img/SlimeSimu/black.png">
+            <source src="../assets/video/SlimeSimu/no-shape.mp4" type="video/mp4" />
           </video>
         </div>
+        <div class="prose">
+            <h3>Implémentation de différentes formes</h3>
+            <p>Pour le plus grand plaisir de mes yeux, j'ai implémenter la possibilité 
+            de choisir 2 formes d'où patent toust ces agents.
+            Il est donc possible de choisir une forme parmis un cercle et un disque. 
+            Si aucune forme n'est choisie, l'apparition des agents se fera de manière 
+            aléatoire à travers la carte.
+            </p>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/SlimeSimu/black.png">
+            <source src="../assets/video/SlimeSimu/disk-shape.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="prose">
+          <p>
+          On a donc ici l'utilisation de la forme de disque.
+          </p>
+        </div>
+
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/SlimeSimu/black.png">
+            <source src="../assets/video/SlimeSimu/circle-shape.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="prose">
+          <p>
+          Utilisation cette fois de la forme circulaire.
+          </p>
+          <h3>Action utilisateur</h3>
+          <p>
+          Afin de rendre cette expérience <strong>interactive</strong> et de pouvoir 
+          expérimenter des choses sur la simulation, vous avez la possiblité d'étourdir 
+          <em>(avec le clic droit de la souris)</em> les agents en les empêchant de 
+          prendre leur décision. Il est également possible de déposer des phéromones 
+          <em>(avec le clic gauche)</em>.
+          </p>
+        </div>
+
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/SlimeSimu/black.png">
+            <source src="../assets/video/SlimeSimu/right-left_click.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="prose">
+        </div>
+
       </section>
 
 
@@ -143,9 +232,6 @@
       <section class="project-block reveal">
         <div class="prose">
           <h2>Galerie</h2>
-          <p>
-            TODO
-          </p>
         </div>
         <div class="media-gallery">
           <figure class="media-figure">
@@ -157,7 +243,7 @@
             <figcaption>TODO</figcaption>
           </figure>
         </div>
-      </section>
+     </section>
 
       <!-- Ce que j'en retiens -->
       <section class="project-block reveal">
