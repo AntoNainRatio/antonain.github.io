@@ -26,7 +26,6 @@
   </header>
 
   <main>
-    <!-- HERO PARALLAX -->
     <section class="project-hero">
       <div class="project-hero-bg" data-parallax style="background-image: url('../assets/img/my2048_default.jpg');"></div>
       <div class="project-hero-overlay"></div>
@@ -37,9 +36,7 @@
             My2048 est une copie de 2048, l'objectif était de refaire le jeu
             afin d'ensuite créer un bot performant dessus.
         </p>
-        <div class="project-tags">
-          <span>C</span><span>GTK</span><span>Expectimax</span><span>IA</span>
-        </div>
+        <div class="project-tags" id="project-tags" data-project="My2048"></div>
       </div>
     </section>
 
@@ -135,16 +132,95 @@
         </div>
       </section>
 
-      <!-- Comment ça marche -->
+      <!-- Comment ca marche -->
       <section class="project-block reveal">
         <div class="prose">
           <h2>Comment marche le bot&nbsp;?</h2>
+
           <p>
-            TODO
+            2048 mélange deux phénomènes — d'un côté <strong>nos décisions</strong>
+            (les 4 déplacements, totalement maîtrisés), de l'autre le <strong>hasard</strong>
+            (après chaque coup, une tuile apparaît : un 2 dans 90&nbsp;% des cas, un 4 dans 10&nbsp;%).
+            C'est ce mélange qui guide le choix de l'algorithme.
+          </p>
+        </div>
+
+        <div class="prose">
+          <h3>L'algorithme Expectimax</h3>
+          <p>
+            L'algorithme Expectimax est une variante du Minimax adaptée au hasard&nbsp;: là où le
+            Minimax suppose un adversaire qui joue toujours le pire coup contre nous, Expectimax
+            remplace cet adversaire par l'<strong>espérance</strong> sur les événements aléatoires.
+            On explore un arbre des coups possibles dans lequel alternent deux types de nœuds&nbsp;:
           </p>
           <ul>
-            <li><strong>TODO</strong> : <em>TODO DETAILS</em>.</li>
+            <li>
+              <strong>Nœuds MAX</strong> — c'est le bot qui joue. Il essaie les 4 déplacements
+              (ceux qui ne bougent aucune tuile sont écartés) et garde celui qui mène à la
+              meilleure situation.
+            </li>
+            <li>
+              <strong>Nœuds CHANCE</strong> — ici c'est le hasard qui place une tuile. On ne
+              choisit pas&nbsp;: pour chaque case vide, on envisage l'apparition d'un 2 et celle
+              d'un 4, et on combine les résultats <em>pondérés par leur probabilité</em>
+              (0,9 pour un 2, 0,1 pour un 4). C'est l'<em>espérance</em> de la position.
+            </li>
           </ul>
+        </div>
+
+        <div class="prose">
+          <h3>La fonction d'évaluation (heuristique)</h3>
+          <p>
+            On ne peut pas explorer l'arbre jusqu'à la fin de la partie&nbsp;: le nombre de
+            positions explose. On s'arrête donc à une <strong>profondeur</strong> fixée et on
+            attribue une note à chaque position grâce à une <strong>heuristique</strong> — c'est
+            elle qui encode «&nbsp;ce qu'est une bonne position&nbsp;».
+          </p>
+          <p>
+            Mon heuristique récompense une idée classique au 2048&nbsp;: garder les grosses tuiles
+            rangées en <strong>serpentin vers un coin</strong>, pour pouvoir fusionner sans se
+            bloquer. Concrètement, je définis <strong>quatre matrices de poids</strong> — une par
+            coin (bas-gauche, bas-droite, haut-droite, haut-gauche). Chaque matrice attribue un
+            poids croissant aux cases en suivant un serpentin qui converge vers son coin.
+          </p>
+        </div>
+
+        <div class="explanation_bot">
+          <figure class="media-figure">
+            <img src="../assets/img/my2048/score_matrix.jpg" alt="Matrice heuristique" loading="lazy" />
+            <figcaption>Matrice d'heuristique gérant le cas où la plus grande tuile est en haut à droite.</figcaption>
+          </figure>
+        </div>
+
+        <div class="prose">
+          <p>
+            Pour noter une position, je calcule le <strong>produit scalaire</strong> entre le
+            plateau et chaque matrice <em>(haut gauche, haut droite, bas gauche et bas droite)</em>. 
+            Cela permet de favoriser une sorte de <em>serpent</em> avec comme plus rgrande valeur 
+            dans le coin et qu'en suivant ce <em>serpent</em>, les valeurs décroisse. On vise donc 
+            une position optimale du plateau. Puis je garde le <strong>meilleur des quatre</strong> 
+            résultats. Le bot n'est donc pas enfermé dans un seul coin&nbsp;: il adopte 
+            l'orientation qui valorise le mieux sa position courante.
+          </p>
+
+          <h3>Profondeur &amp; performance</h3>
+          <p>
+            La profondeur de recherche est fixée à <strong>4</strong> (constante
+            <code>MAX_DEPTH</code>, modifiable dans <code>src/bot.c</code>)&nbsp;: le bot envisage
+            les 4 prochains coups ainsi que toutes les apparitions de tuiles intermédiaires.
+          </p>
+          <p>
+            Le nombre de scénarios grimpe très vite avec la profondeur. Pour rester rapide,
+            j'évalue les <strong>4 directions en parallèle</strong>, chacune dans son propre thread.
+            Une fois les 4 scores obtenus, on selectionne la direction ayany meilleur score.
+          </p>
+
+          <h3>Résultats</h3>
+          <p>
+            En pratique, plus la profondeur est élevée, meilleur est le jeu — au prix du temps de
+            calcul. Actuellement le bot n'arrive pas à tous les coups à 2048 et je sais qu'il reste
+            une certaine marge de progression.
+          </p>
         </div>
       </section>
 
@@ -152,34 +228,39 @@
       <section class="project-block reveal">
         <div class="prose">
           <h2>Démonstration</h2>
-          <p>Le bot en action&nbsp;: TODO</p>
+          <p>Le bot en action&nbsp;:</p>
+          <p>
+            On voit ici que le bot préfère quelque fois écarter le carré le avec la plus 
+            grosse valeure du bord. Ce choix indique donc un problème dans notre calcul 
+            d'heuristique.
+          </p>
         </div>
         <div class="video-wrap">
           <video controls preload="metadata" poster="../assets/img/my2048_default.jpg">
-            <source src="../assets/video/my2048/my2048_demo.mp4" type="video/mp4" />
+            <source src="../assets/video/my2048/bot.mp4" type="video/mp4" />
           </video>
         </div>
       </section>
 
-      <!-- Galerie -->
-      <section class="project-block reveal">
-        <div class="prose">
-          <h2>Galerie</h2>
-        </div>
-        <div class="media-gallery">
-          <figure class="media-figure">
-            <img src="../assets/img/my2048_default.jpg" alt="My2048 — vue 1" loading="lazy" />
-            <figcaption>TODO</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- Ce que j'ai appris -->
+      <!-- Ce que j'en retiens -->
       <section class="project-block reveal">
         <div class="prose">
           <h2>Ce que j'en retiens</h2>
           <p>
-            <em>Conclus&nbsp;: TODO</em>
+            <em>Conclus&nbsp;:</em>
+          </p>
+          <p>
+            J'ai donc appris comment fonctionne l'algorithme Expectimax et découvert comment
+            faire une interface graphique plutôt simple.
+          </p>
+          <p>
+            J'ai pris beaucoup de plaisir à faire ce projet et j'en suis très fier.
+          </p>
+          <h2>Axes d'améliorations</h2>
+          <p>
+            Afin d'améliorer ce projet, la prochaine étape à réaliser serait de corriger ce calcul 
+            d'heuristique et d'optimiser le code afin que le calcul du meilleur déplacement à faire 
+            soit plus rapide.
           </p>
           <div class="article-cta">
             <a href="https://github.com/AntoNainRatio/My2048" target="_blank" rel="noopener" class="btn btn-primary">Code source ↗</a>

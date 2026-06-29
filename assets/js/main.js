@@ -10,7 +10,7 @@ const PROJECTS = [
     description:
       "My2048 est une copie de 2048, l'objectif était de refaire le jeu afin" +
       " d'ensuite créer un bot performant dessus.",
-    tags: ["C", "GTK", "Expectimax"],
+    tags: ["C", "GTK", "Expectimax",  "Game"],
     image: "assets/img/my2048_default.jpg",
     repo: "https://github.com/AntoNainRatio/My2048",
     page: "projects/my2048.html",
@@ -68,40 +68,56 @@ function renderProjects() {
     const links = el("div", { class: "project-links" });
     if (p.repo) links.appendChild(el("a", { href: p.repo, target: "_blank", rel: "noopener", text: "code ↗" }));
     if (p.demo) links.appendChild(el("a", { href: p.demo, target: "_blank", rel: "noopener", text: "démo ↗" }));
-    if (p.page) links.appendChild(el("a", { href: p.page, text: "détails →" }));
 
-    const top = el("div", { class: "project-top" }, [
-      p.image ? null : el("span", { class: "project-icon", text: p.icon || "" }),
-      links,
-    ]);
+    const top = el("div", { class: "project-top" }, [links]);
 
     const tags = el("div", { class: "project-tags" });
     (p.tags || []).forEach((t) => tags.appendChild(el("span", { text: t })));
 
-    // Le titre renvoie vers la page de détail si elle existe
-    const title = p.page
-      ? el("h3", {}, [el("a", { href: p.page, text: p.title })])
-      : el("h3", { text: p.title });
-
     const body = el("div", { class: "project-body" }, [
       top,
-      title,
+      el("h3", { text: p.title }),
       el("p", { text: p.description }),
       tags,
     ]);
 
-    // L'image renvoie vers la page de détail si elle existe
     const media = p.image
-      ? el(p.page ? "a" : "div", {
-          class: "project-media",
-          ...(p.page ? { href: p.page } : {}),
-        }, [el("img", { src: p.image, alt: p.title, loading: "lazy" })])
+      ? el("div", { class: "project-media" }, [
+          el("img", { src: p.image, alt: p.title, loading: "lazy" }),
+        ])
       : null;
 
     const card = el("article", { class: "project-card reveal" }, [media, body]);
 
+    // Toute la vignette est cliquable si une page de détail existe.
+    if (p.page) {
+      card.classList.add("is-link");
+      card.setAttribute("role", "link");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-label", p.title);
+      const go = () => { window.location.href = p.page; };
+      card.addEventListener("click", go);
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
+      });
+      // Les liens internes (code/démo) ne doivent pas déclencher la navigation.
+      links.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", (e) => e.stopPropagation())
+      );
+    }
+
     grid.appendChild(card);
   });
+}
+
+// Remplit les tags d'une page de détail à partir du projet correspondant,
+// pour éviter de les dupliquer à la main (source unique : PROJECTS).
+function renderProjectTags() {
+  const box = document.getElementById("project-tags");
+  if (!box) return;
+  const project = PROJECTS.find((p) => p.title === box.dataset.project);
+  if (!project) return;
+  (project.tags || []).forEach((t) => box.appendChild(el("span", { text: t })));
 }
 
 function renderContacts() {
@@ -159,6 +175,7 @@ function setupReveal() {
 document.addEventListener("DOMContentLoaded", () => {
   renderInterests();
   renderProjects();
+  renderProjectTags();
   renderContacts();
   setupNavToggle();
   setupReveal();
