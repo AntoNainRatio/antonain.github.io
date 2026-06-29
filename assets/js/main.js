@@ -22,7 +22,8 @@ const PROJECTS = [
       "Résultat graphique 100% éditable.",
     tags: ["C", "GTK", "Simulation", "Art"],
     image: "assets/img/SlimeSimu_default.jpg",
-    repo: "https://github.com/AntoNainRatio/SlimeSimu"
+    repo: "https://github.com/AntoNainRatio/SlimeSimu",
+    page: "projects/slimesimu.html",
   },
   {
     title: "Birdy",
