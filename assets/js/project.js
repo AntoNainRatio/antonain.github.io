@@ -31,3 +31,46 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   update();
 })();
+
+/* ===========================================================================
+   Lightbox pour les images de la galerie : clic pour agrandir en pop-up.
+   =========================================================================== */
+(function () {
+  const triggers = document.querySelectorAll(".media-gallery .media-figure img");
+  if (!triggers.length) return;
+
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.innerHTML = `
+    <button class="lightbox-close" aria-label="Fermer">&times;</button>
+    <img src="" alt="" />
+    <figcaption></figcaption>
+  `;
+  document.body.appendChild(lightbox);
+
+  const lightboxImg = lightbox.querySelector("img");
+  const lightboxCaption = lightbox.querySelector("figcaption");
+  const closeBtn = lightbox.querySelector(".lightbox-close");
+
+  function open(img) {
+    const caption = img.closest("figure")?.querySelector("figcaption")?.textContent ?? "";
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightboxCaption.textContent = caption;
+    lightbox.classList.add("is-open");
+  }
+
+  function close() {
+    lightbox.classList.remove("is-open");
+    lightboxImg.src = "";
+  }
+
+  triggers.forEach((img) => img.addEventListener("click", () => open(img)));
+  closeBtn.addEventListener("click", close);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+})();
