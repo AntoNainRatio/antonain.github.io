@@ -28,11 +28,12 @@ const PROJECTS = [
   {
     title: "Birdy",
     description:
-      "Création d'un Flappy Bird maison afin de créer une IA capable de " +
-      "vous battre.",
+      "Création d'un Flappy Bird maison afin de créer une IA capable d' " +
+      "apprendre à jouer.",
     tags: ["Java", "IA", "Dérivation génétique"],
     image: "assets/img/birdy_default.jpg",
-    repo: "https://github.com/AntoNainRatio/birdy"
+    repo: "https://github.com/AntoNainRatio/birdy",
+    page: "projects/birdy.html"
   }
 ];
 

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birdy — Antonin Lh</title>
+  <meta name="description" content="Création d'un Flappy Bird maison afin de créer une IA capable d'apprendre à jouer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html#top" class="brand">antonin<span class="accent">.</span>lh</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">À propos</a></li>
+        <li><a href="../index.html#projects">Projets</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="project-hero">
+      <div class="project-hero-bg" data-parallax style="background-image: url('../assets/img/birdy_default.jpg');"></div>
+      <div class="project-hero-overlay"></div>
+      <div class="project-hero-content container">
+        <a href="../index.html#projects" class="back-link">← Retour aux projets</a>
+        <h1 class="project-hero-title">Birdy</h1>
+        <p class="project-hero-tagline">
+        Création d'un Flappy Bird maison afin de créer une IA capable d'apprendre 
+        à jouer.
+        </p>
+        <div class="project-tags" id="project-tags" data-project="Birdy"></div>
+      </div>
+    </section>
+
+    <!-- CONTENU -->
+    <article class="project-article container">
+
+      <!-- En bref -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Contexte</h2>
+          <p>
+            Le fonctionnement des IAs était très sombre pour moi et c'est donc comme 
+            ça que j'ai voulu créer un réseau de neuronnes de zéro. Après quelques recherches 
+            sur internet j'ai vu que pour un débutant, il était recommander de le faire sur une 
+            tâche assez simple. C'est alors que j'ai pensé à ce jeu.
+          </p>
+
+          <h2>Le Jeu</h2>
+          <p>
+            La première étape était de refaire le jeu afin que le réseau puisse facilement 
+            avoir accès aux informations en jeu. La création du jeu n'est pas le plus intéressant 
+            donc nous allons passer cette étape assez vite.
+          </p>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/birdy/background.png">
+            <source src="../assets/video/birdy/player.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+      </section>
+
+      <!-- IA -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Fonctionnement de l'IA</h2>
+          <p>
+            Nous arrivons donc a la partie importante du projet. Notre IA repose sur 
+            <strong>la nature</strong> et plus particulièrement la dérivation génétique. 
+          </p>
+          <p>
+            Le fonctionnement repose sur 3 étapes précises répétés un nombre non-défini de fois.
+          </p>
+          <ol>
+              <li>Laisser chaque individu évoluer dans son milieu.</li>
+              <li>Evaluer leur expérience dans ce milieu</li>
+              <li>Reproduction des meilleurs car </li>
+          </ol>
+          <p>
+            Nous appelerons <strong>génération</strong> l'ensemble des individus appartenant à 
+            une même boucle.
+            En répétant ce processus encore et encore, les générations deviennent de plus en plus 
+            forte car elles gardent les attributs génétiques des meilleurs individus de la 
+            génération précédente.
+          </p>
+
+          <h2>Réseau de neuronnes</h2>
+
+          <p>
+            Nous suivons donc ce même principe, avec les réseau de neuronnes où le poids et le biais varient de 
+            manière aléatoire. Les réseaux de neuronnes les plus performants sont <strong>mutés entre eux et dupliqué 
+            avec une petite partie de modification</strong> afin de tendre vers des réseaux de plus en plus performant.
+          </p>
+        </div>
+
+        <figure class="media-figure is-small">
+          <img src="../assets/img/birdy/schema.png" loading="lazy" />
+          <figcaption>Schéma des paramètres en entré au réseau de neuronnes.</figcaption>
+        </figure>
+
+        <div class="prose">
+          <p>Afin qu'il puisse progresser, il a besoin de différents entrées&nbsp;:</p>
+          <ol>
+            <li>distance verticale du bas</li>
+            <li>vitesse verticale</li>
+            <li>ditance verticale par rapport au tuyau du haut</li>
+            <li>ditance verticale par rapport au tuyau du bas</li>
+          </ol>
+          <p>
+            Avec ces paramètres, le reseau de neuronnes identifie si à chaque frame il faut qu'il 
+            batte des ailes ou non.
+          </p>
+        </div>
+
+        <!-- Démonstration vidéo -->
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/birdy/background.png">
+            <source src="../assets/video/birdy/bot.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+
+        <div class="prose">
+          <p>
+            On peut voir qu'au bout de la 15ème génération, on obtient des résultats satisfaisant avec un agent obtenant plus de 50 de score.
+            Lors de son échec, <strong>1000 nouveaux agents</strong> ayant obtenu les <em>gênes</em> des meilleurs de la généeration précédente.
+          </p>
+        </div>
+      </section>
+
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Démonstration</h2>
+          <p>L'IA en action&nbsp;:</p>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" poster="../assets/img/birdy/background.png">
+            <source src="../assets/video/birdy/full.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="prose">
+          <p>
+            Sur cette démo, on peut voir que dès la première génération, un agent arrive à 4 de score. Le hasard a bien fait les choses 
+            et va donc nous faire progresser très vite. Sur la 4ème génération, on arrive à un score maximal de 8. La génération suivante 
+            va aller moins loin alors que les <strong>10 meilleurs agents sont gardés de manière identique d'une génération à l'autre</strong>.
+          </p>
+          <p>
+            Cette baisse de performance vient du facteur aléatoire des tuyaux. Un agent peut être très performant sur une partie et échoué dans un 
+            enchainement précis de plusieurs hauteurs cibles. L'aléatoire a donc une place importante dans ce mode d'apprentissage.
+          </p>
+          <p>
+            Enfin, la dernière génération visible <em>(9)</em> va atteindre plus de 50 score. 
+            L'aléatoire nous a été très favorable au départ mais la courbe de progression était 
+            plutôt lente dans le cas démontré. Vous pouvez voir dans la <strong>Galerie</strong>, 
+            un score de 327 pour une 5 ème génération.
+          </p>
+        </div>
+      </section>
+
+      <!-- Galerie -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Galerie</h2>
+        </div>
+        <div class="media-gallery">
+          <figure class="media-figure">
+            <img src="../assets/img/birdy_default.jpg" alt="Birdy — rendu 1" loading="lazy" />
+            <figcaption>Image d'acceuil</figcaption>
+          </figure>
+          <figure class="media-figure">
+            <img src="../assets/img/birdy/1000_alive.png" alt="Birdy — rendu 2" loading="lazy" />
+            <figcaption>Départ d'entrainement</figcaption>
+          </figure>
+          <figure class="media-figure">
+            <img src="../assets/img/birdy/high.png" alt="Birdy — rendu 2" loading="lazy" />
+            <figcaption>Score élevé</figcaption>
+          </figure>
+        </div>
+     </section>
+
+
+
+      <!-- Ce que j'en retiens -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Ce que j'en retiens</h2>
+          <p>
+          J'ai donc appris comment fonctionnait un réseau de neuronnes <em>(biais, weight)</em> et 
+          l'algorithme de dérivation génétique que j'apprécie pour son inspiration qui font ce que notre 
+          monde est.
+          </p>
+          <div class="article-cta">
+            <a href="https://github.com/AntoNainRatio/Birdy" target="_blank" rel="noopener" class="btn btn-primary">Code source ↗</a>
+            <a href="../index.html#projects" class="btn btn-ghost">← Autres projets</a>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer container">
+    <p>© <span id="year"></span>  -  antonin.lh  -  Hébergé sur GitHub Pages.</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/project.js"></script>
+
+
+</body>
+
