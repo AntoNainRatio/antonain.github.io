@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kultero — Antonin Lh</title>
+  <meta name="description" content="Création d'une application web pour écrire, organiser et apprendre ses notes de culture générale." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html#top" class="brand">antonin<span class="accent">.</span>lh</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">À propos</a></li>
+        <li><a href="../index.html#projects">Projets</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="project-hero">
+      <div class="project-hero-bg" data-parallax style="background-image: url('../assets/img/kultero_default.png');"></div>
+      <div class="project-hero-overlay"></div>
+      <div class="project-hero-content container">
+        <a href="../index.html#projects" class="back-link">← Retour aux projets</a>
+        <h1 class="project-hero-title">Kultero</h1>
+        <p class="project-hero-tagline">
+        Création d'une application web afin d'écrire, d'organiser et d'apprendre ses notes de
+        culture générale. Ce projet vise à devenir communautaire avec la possibilité de partager ses notes
+        avec autrui et d'apprendre des autres utilisateurs.
+        </p>
+        <div class="project-tags" id="project-tags" data-project="Kultero"></div>
+      </div>
+    </section>
+  
+    <!-- CONTENU -->
+    <article class="project-article container">
+
+      <!-- En bref -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Contexte</h2>
+          <p>
+            Ce projet est né d'un besoin qui est le mien. J'aime la culture générale et afin de progresser,
+            je prenais des notes dans un cahier. Bien que le format papier et le fait d'écrire ont de nombreux avantages, je me suis rendu
+            compte que je connaissais mes notes plus grâce à l'ordre de celles-ci que par la question. La solution à ce problème est de les apprendre dans le <strong>désordre</strong> !
+          </p>
+          <p>
+            C'est donc de ce besoin qu'est né <strong>Kultero</strong>.
+          </p>
+
+          <h2>Fonctionnalités</h2>
+          <p>
+            Les notes prennent la forme de questions avec une ou plusieurs réponses. Vous pouvez les ranger dans des listes et les listes peuvent être rangées dans un groupe.
+            Chacune de ces "entités" peut obtenir un label qui permet d'indiquer le domaine de la question (ex: sport, nature, histoire,...).
+          </p>
+        </div>
+
+        <figure class="media-figure is-small" style="max-width: 500px;">
+          <img src="../assets/img/kultero/liste.png" loading="lazy" />
+          <figcaption>Aperçu d'une liste contenant des questions</figcaption>
+        </figure>
+
+        <div class="prose">
+          <p>
+            Vous pouvez donc réviser une question, une liste ou un groupe dans l'ordre de création ou bien dans un ordre aléatoire.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- PARTIE PROJET -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Parties du Projet</h2>
+          <h3>Développement</h3>
+          <p>
+            L'API a été réalisée en Java et est composée de plusieurs services (account-service, question-service, ...). J'utilise une base de données Postgres qui tourne sur un conteneur Docker.
+          </p>
+          <h3>CI/CD</h3>
+          <p>
+            Le repo contient une pipeline CI/CD ce qui me permet d'assurer un bon déroulement du développement et du déploiement.
+            Elle comporte 4 grandes étapes:
+          </p>
+          <ol>
+            <li>
+                Validate: vérification du <strong>format de code</strong> (lint)
+            </li>
+            <li>
+                Build: vérification de la compilation/conteneurisation du code, lancement de Nginx et Postgres
+            </li>
+            <li>
+                Scan: vérification de la <strong>sécurité</strong> du code et des dépendances (GitLeaks, Trivy)
+            </li>
+            <li>
+                Test: vérification du <strong>bon fonctionnement</strong> du code (unitaire, e2e)
+            </li>
+          </ol>
+
+          <h3>Observabilité</h3>
+          <p>
+            Cette partie permet d'avoir un aperçu personnalisé de ce qui se passe sur l'application et la machine.
+            Dans notre cas, on peut voir l'utilisation du CPU, l'espace disque, le nombre de requêtes en temps réel et bien d'autres métriques.
+            Cela permet d'analyser, de comprendre et de réagir à ce qui se passe.
+          </p>
+          <p>
+            Afin de faire tout ça, j'ai choisi d'utiliser Loki, Prometheus et Grafana.
+          </p>
+        </div>
+
+        <figure class="media-figure is-small" style="max-width: 500px;">
+          <img src="../assets/img/kultero/observability.png" loading="lazy" />
+          <figcaption>Dashboard montrant les différentes métriques très utiles</figcaption>
+        </figure>
+
+        <div class="prose">
+            <h3>Backup</h3>
+            <p>À venir...</p>
+        </div>
+
+      <!-- Galerie -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Galerie</h2>
+        </div>
+        <div class="media-gallery">
+          <figure class="media-figure">
+            <img src="../assets/img/kultero_default.png" alt="Kultero — rendu 1" loading="lazy" />
+            <figcaption>Image d'accueil</figcaption>
+          </figure>
+          <figure class="media-figure">
+            <img src="../assets/img/kultero/group.png" alt="Kultero — rendu 2" loading="lazy" />
+            <figcaption>Visuel d'un groupe</figcaption>
+          </figure>
+          <figure class="media-figure">
+            <img src="../assets/img/kultero/settings.png" alt="Kultero — rendu 3" loading="lazy" />
+            <figcaption>Réglages utilisateurs</figcaption>
+          </figure>
+        </div>
+     </section>
+
+
+
+      <!-- Ce que j'en retiens -->
+      <section class="project-block reveal">
+        <div class="prose">
+          <h2>Ce que j'en retiens</h2>
+          <p>
+          J'ai donc appris comment fonctionnait une web app et j'essaie de suivre les bonnes pratiques apprises durant mes cours, projets et recherche sur internet (CI/CD, Observabilité, Backup).
+          J'ai touché à beaucoup de choses différentes que je n'avais jamais faites auparavant, avec par exemple la création et la gestion de tokens JWT et de refresh tokens. C'était l'opportunité pour mettre en place
+          le <strong>security by design</strong> qui nous a été transmis en cours.
+          J'espère continuer à apprendre car je compte faire grandir ce projet jusqu'à arriver à quelque chose qui me satisfait.
+          </p>
+          <div class="article-cta">
+            <a href="../index.html#projects" class="btn btn-ghost">← Autres projets</a>
+          </div>
+        </div>
+      </section>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer container">
+    <p>© <span id="year"></span>  -  antonin.lh  -  Hébergé sur GitHub Pages.</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/project.js"></script>
+</body>

@@ -34,6 +34,15 @@ const PROJECTS = [
     image: "assets/img/birdy_default.jpg",
     repo: "https://github.com/AntoNainRatio/birdy",
     page: "projects/birdy.html"
+  },
+  {
+    title: "Kultero",
+    description:
+      "Application web pour écrire, organiser et apprendre ses notes de " +
+      "culture générale, avec une vocation communautaire.",
+    tags: ["Java", "PostgreSQL", "Docker", "CI/CD", "Observabilité", "Securité"],
+    image: "assets/img/kultero_default.png",
+    page: "projects/kultero.html",
   }
 ];
 
