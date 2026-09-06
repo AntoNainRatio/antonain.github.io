@@ -101,9 +101,25 @@
                 Scan: vérification de la <strong>sécurité</strong> du code et des dépendances (GitLeaks, Trivy)
             </li>
             <li>
-                Test: vérification du <strong>bon fonctionnement</strong> du code (unitaire, e2e)
+                Test: vérification du <strong>bon fonctionnement</strong> du code (tests unitaires)
             </li>
           </ol>
+
+          <p>
+            La prochaine étape serait de faire des étapes de CD (continuous deployment). Cela permettrait de déployer directement l'application avec les nouvelles features une fois
+            les étapes préalables validées et une action manuelle lançant cette CD.
+          </p>
+          <p>
+            Les tests e2e sont pour l'instant vérifiés manuellement ; les automatiser dans la pipeline serait un réel gain de temps.
+            C'est également un prérequis pour des étapes de "continuous deployment".
+          </p>
+        </div>
+
+        <figure class="media-figure is-small" style="max-width: 500px;">
+          <img src="../assets/img/kultero/ci-cd.png" loading="lazy" />
+          <figcaption>Étapes de la CI</figcaption>
+        </figure>
+
 
           <h3>Observabilité</h3>
           <p>
